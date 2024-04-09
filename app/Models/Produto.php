@@ -11,6 +11,6 @@ class Produto extends Model
         'nome',
         'preco',
         'ingredientes',
-        'imagen'
+        'imagem'
     ];
 }

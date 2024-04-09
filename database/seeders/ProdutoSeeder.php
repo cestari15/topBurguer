@@ -93,7 +93,7 @@ class ProdutoSeeder extends Seeder
                 'nome' => $lanche['nome'],
                 'preco' => $lanche['preco'],
                 'ingredientes'=> $lanche['ingredientes'],
-                'imagen' => $lanche ['imagen'],
+                'imagem' => $lanche ['imagem'],
                 'created_at' => now(),
                 'updated_at' => now()
             ]);

@@ -26,8 +26,10 @@ class ClienteFormRequest extends FormRequest
         return [
             'nome' => 'required|max:120|min:5',
             'telefone' => 'required|numeric|max:99999999999|min:0000000000',
-            'endereco' => 'required|max:200|min10',
+            'endereco' => 'required|max:200|min:10',
             'email'  => 'required|max:120|email|unique:clientes,email,' . $this->id,
+            'cpf' => 'required|numeric|max:99999999999|min:10000000000|unique:clientes,cpf,' . $this->id,
+            'imagem'=>'required',
             'password' => 'required'
         ];
     }
@@ -45,6 +47,7 @@ class ClienteFormRequest extends FormRequest
     public function messages()
     {
         return [
+            'imagem.required' => 'Preencha o campo imagem',
             'nome.required' => 'Preencha o campo nome',
             'nome.max' => 'Este campo deve conter no maximo 120 caractéris',
             'nome.min' => 'Este campo deve conter no minimo 5 caractéris',
@@ -62,8 +65,15 @@ class ClienteFormRequest extends FormRequest
             'endereco.required' => 'o campo endereço é obrigatório',
             'endereco.max' => 'o campo endereço deve ter no máximo 120 caractéris',
             'endereco.min' => 'o campo endereço deve ter no minimo 10 caractéris',
-
+            'cpf.required' => 'O campo CPF é obrigatório.',
+            'cpf.numeric' => 'O campo CPF deve conter apenas números.',
+            'cpf.max' => 'O campo CPF deve ter no maximo 11 dígitos.',
+            'cpf.min' => 'O campo CPF deve ter no minimo 11 dígitos.',
+            'cpf.unique' => 'Este CPF já está em uso.',
+            
             'password.required' => 'o campo Senha é obrigatório'
+
+       
         ];
     }
 }

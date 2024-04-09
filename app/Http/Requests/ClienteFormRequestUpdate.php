@@ -26,6 +26,7 @@ class ClienteFormRequestUpdate extends FormRequest
         return [
             'nome' => 'required|max:120|min:5',
             'telefone' => 'required|numeric|max:99999999999|min:1000000000',
+            'cpf' => 'required|numeric|max:99999999999|min:10000000000',
             'email'  => 'required|max:120|email',
             'password' => ''
         ];
@@ -61,8 +62,13 @@ class ClienteFormRequestUpdate extends FormRequest
             'endereco.required' => 'o campo endereço é obrigatório',
             'endereco.max' => 'o campo endereço deve ter no máximo 120 caractéris',
             'endereco.min' => 'o campo endereço deve ter no minimo 10 caractéris',
-        
-            
+                     
+            'cpf.required' => 'O campo CPF é obrigatório.',
+            'cpf.numeric' => 'O campo CPF deve conter apenas números.',
+            'cpf.max' => 'O campo CPF deve ter no maximo 11 dígitos.',
+            'cpf.min' => 'O campo CPF deve ter no minimo 11 dígitos.',
+
+           
         ];
     }
 }
