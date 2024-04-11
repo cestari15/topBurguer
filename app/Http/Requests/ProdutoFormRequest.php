@@ -25,7 +25,7 @@ class ProdutoFormRequest extends FormRequest
     {
         return [
             'nome' => 'required|max:120|min:5',
-            'preco' => 'required|decimal:2,4',
+            'preco' => 'required|decimal:2',
             'ingredientes' => 'required|max:100|min:5',
             'imagem'=>'required'
         ];

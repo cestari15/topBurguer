@@ -15,6 +15,7 @@ class ProdutoController extends Controller
 
         $produtosComImagen = $produtos->map(function ($produto) {
             return [
+                'id' => $produto->id,
                 'nome' => $produto->nome,
                 'preco' => $produto->preco,
                 'ingredientes' => $produto->ingredientes,
@@ -104,6 +105,21 @@ class ProdutoController extends Controller
             'status'=>true,
             'data'=>$produto
         ]);
+    }
+
+    public function somar(Request $request){
+        $produto = Produto::find($request->id);
+
+        if(count($produto) == 0){
+            return response()->json([
+                'status' => false,
+                'message' => "Nada no carrinho"
+            ]);
+        } 
+          
+        if(count($produto) > 0){
+            
+        }
     }
 
 }
