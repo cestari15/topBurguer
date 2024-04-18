@@ -7,22 +7,37 @@ use App\Models\Carrinho;
 use App\Models\Item_carrinho;
 use App\Models\Pedidos;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CarrinhoController extends Controller
 {
     public function index()
     {
-        $carrinho = Carrinho::all();
 
-        $fotosComImagen = $carrinho->map(function ($carrinho) {
-            return [
-                'produtos_id' => $carrinho->produtos_id,
-                'clientes_id' => $carrinho->clientes_id,
-                'status' => $carrinho->status,
-                'total' => $carrinho->total
-            ];
-        });
-        return response()->json($fotosComImagen);
+
+        $carrinho = DB::table('clientes')
+            ->join('carrinhos', 'clientes.id', '=', 'carrinhos.clientes_id')
+            ->join('item_carrinhos', 'carrinhos.id', '=', 'item_carrinhos.carrinho_id')
+            ->join('produtos', 'produtos.id', 'item_carrinhos.produtos_id')
+            ->get();
+        //dd($carrinho);
+
+
+
+        $carrinho = [
+            'cliente_id' => $carrinho->cliente_id,
+            'quantidade'=> $carrinho->quantidade,
+            'valor_unitario'=>$carrinho->valor_unitario,
+            'itens' => [
+                [
+                    'produtos_id' => $carrinho->produtos_id,
+                    'nome' => $carrinho->nome,
+                    'preco'=>$carrinho->preco,
+                    'ingredientes'=>$carrinho->ingredientes,
+                    'imagem'=>$carrinho->imagem
+                ],
+            ]
+        ];
     }
     public function store(CarrinhoFormRequest $request)
     {
@@ -36,7 +51,7 @@ class CarrinhoController extends Controller
         }
         $carrinho =  Carrinho::create([
             'status' => $request->status,
-            'clientes_id' => $request->clientes_id,    
+            'clientes_id' => $request->clientes_id,
             'total' => $request->total,
         ]);
         return response()->json([
@@ -82,7 +97,7 @@ class CarrinhoController extends Controller
                 "message" => "produto não encontrado"
             ], 400);
         }
-        $carrinho = Item_carrinho::where('pedidos_id', $request->pedidos_id);
+        $carrinho = Item_carrinho::where('carrinho_id', $request->carrinho_id);
         if (!$carrinho) {
             return response()->json([
                 "status" => false,
@@ -93,7 +108,7 @@ class CarrinhoController extends Controller
 
 
             'quantidade' => $request->quantidade,
-            'pedidos_id' => $request->pedidos_id,
+            'carrinho_id' => $request->carrinho_id,
             'produtos_id' => $request->produtos_id,
             'valor_unitario' => $request->valor_unitario,
         ]);
@@ -103,5 +118,20 @@ class CarrinhoController extends Controller
             "data" => $carrinho
 
         ], 200);
+    }
+
+    public function index2()
+    {
+        $carrinho = Item_carrinho::all();
+
+        $fotosComImagen = $carrinho->map(function ($carrinho) {
+            return [
+                'carrinho_id' => $carrinho->carrinho_id,
+                'produtos_id' => $carrinho->produtos_id,
+                'quantidade' => $carrinho->quantidade,
+                'valor_unitario' => $carrinho->valor_unitario
+            ];
+        });
+        return response()->json($fotosComImagen);
     }
 }

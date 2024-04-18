@@ -26,3 +26,4 @@ Route::get('/carrinho',[CarrinhoController::class, 'index']);
 Route::post('/carrinho/cadastro',[CarrinhoController::class, 'store']);
 Route::put('/carrinho/editar',[CarrinhoController::class,'editar']);
 Route::post('/pedido/cadastro2',[CarrinhoController::class, 'store2']);
+Route::get('/carrinho2',[CarrinhoController::class, 'tabela']);

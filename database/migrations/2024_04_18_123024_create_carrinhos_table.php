@@ -16,7 +16,7 @@ return new class extends Migration
             $table->bigInteger('clientes_id')->nullable(false);
             $table->string('status')->nullable(false);
             $table->decimal('total')->nullable(false);
-            $table->foreign('clientes_id')->references('clientes')->on('id');
+            $table->foreignId('clientes_id')->references('clientes')->on('id');
             $table->timestamps();
         });
     }

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('quantidade')->nullable(false);
             $table->decimal('valor_unitario')->nullable(false);
             $table->foreign('carrinho_id')->references('carrinhos')->on('id');
+            $table->foreign('produtos_id')->references('produtos')->on('id');
             $table->timestamps();
         });
     }

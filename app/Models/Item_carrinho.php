@@ -12,6 +12,6 @@ class Item_carrinho extends Model
         'quantidade',
         'valor_unitario',
         'produtos_id',
-        'pedidos_id'
+        'carrinho_id'
     ];
 }
