@@ -9,10 +9,9 @@ use Illuminate\Http\Request;
 
 class ProdutoController extends Controller
 {
-   public function index()
+    public function index()
     {
         $produtos = Produto::all();
-
         $produtosComImagen = $produtos->map(function ($produto) {
             return [
                 'id' => $produto->id,
@@ -24,7 +23,6 @@ class ProdutoController extends Controller
         });
         return response()->json($produtosComImagen);
     }
-
     public function store(ProdutoFormRequest $request)
     {
         $produtoData = $request->all();
@@ -35,12 +33,10 @@ class ProdutoController extends Controller
             $caminhoImagem = $imagem->storeAs('imagens/produtos', $nomeImagem, 'public');
             $produtoData['imagem'] = $caminhoImagem;
         }
-
         $produto = Produto::create($produtoData);
 
         return response()->json(['produto' => $produto], 201);
     }
-
     public function delete($id)
     {
         $produto = Produto::find($id);
@@ -58,10 +54,8 @@ class ProdutoController extends Controller
             'message' => "Produto excluido com sucesso"
         ]);
     }
-
     public function editar(ProdutoFormRequestUpdate $request)
     {
-
         $produto = Produto::find($request->id);
 
         if (!isset($produto)) {
@@ -82,44 +76,36 @@ class ProdutoController extends Controller
         if (isset($request->ingredientes)) {
             $produto->ingredientes = $request->ingredientes;
         }
-
-
         $produto->update();
-
         return response()->json([
             'status' => true,
             'message' => 'Produto atualizado.'
         ]);
-
     }
-    public function retornarTodos(){
+    public function retornarTodos()
+    {
         $produto = Produto::all();
-
-        if($produto == null){
+        if ($produto == null) {
             return response()->json([
-                'status'=>false,
-                'message'=>'Nenhum produto encontrado'
+                'status' => false,
+                'message' => 'Nenhum produto encontrado'
             ]);
         }
         return response()->json([
-            'status'=>true,
-            'data'=>$produto
+            'status' => true,
+            'data' => $produto
         ]);
     }
-
-    public function somar(Request $request){
+    public function somar(Request $request)
+    {
         $produto = Produto::find($request->id);
-
-        if(count($produto) == 0){
+        if (count($produto) == 0) {
             return response()->json([
                 'status' => false,
                 'message' => "Nada no carrinho"
             ]);
-        } 
-          
-        if(count($produto) > 0){
-            
+        }
+        if (count($produto) > 0) {
         }
     }
-
 }

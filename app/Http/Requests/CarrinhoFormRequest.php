@@ -24,13 +24,11 @@ class CarrinhoFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'clientes_id'=>'required|integer',
-           
-            'status'=>'required|',
-            'total'=>'required|decimal:2'
+            'clientes_id' => 'required|integer',
+            'status' => 'required|',
+            'total' => 'required|decimal:2'
         ];
     }
-
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(
@@ -40,19 +38,14 @@ class CarrinhoFormRequest extends FormRequest
             ])
         );
     }
-
-    public function messages(){
+    public function messages()
+    {
         return [
-            'clientes_id.required'=>'Preencha o campo Clientes',
-            'Clientes_id.id.integer'=>'O campo Clientes só recevbe numeros inteiros',
-
-
-
-            'status.required'=>'Preencha o campo status',
-        
-            'total.required'=>'Preencha o campo total',
-            'total.decimal'=>'O campo total só aceita numeros decimais',
-
+            'clientes_id.required' => 'Preencha o campo Clientes',
+            'Clientes_id.id.integer' => 'O campo Clientes só recevbe numeros inteiros',
+            'status.required' => 'Preencha o campo status',
+            'total.required' => 'Preencha o campo total',
+            'total.decimal' => 'O campo total só aceita numeros decimais',
         ];
     }
 }

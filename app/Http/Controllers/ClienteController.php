@@ -13,7 +13,6 @@ class ClienteController extends Controller
     public function index()
     {
         $cliente = Cliente::all();
-
         $fotosComImagen = $cliente->map(function ($cliente) {
             return [
                 'nome' => $cliente->nome,
@@ -27,7 +26,6 @@ class ClienteController extends Controller
         });
         return response()->json($fotosComImagen);
     }
-
     public function store(ClienteFormRequest $request)
     {
         $clienteData = $request->all();
@@ -38,38 +36,27 @@ class ClienteController extends Controller
             $caminhoImagem = $imagem->storeAs('imagens/produtos', $nomeImagem, 'public');
             $clienteData['imagem'] = $caminhoImagem;
         }
-
         $clienteData = Cliente::create($clienteData);
-
         return response()->json(['cliente' => $clienteData], 201);
     }
-
-
     public function delete($id)
     {
         $cliente = Cliente::find($id);
-
         if (!isset($cliente)) {
             return response()->json([
                 'status' => false,
                 'message' => "Cliente não Sencontrado"
             ]);
         }
-
         $cliente->delete();
         return response()->json([
             'status' => true,
             'message' => "Cliente excluido com sucesso"
         ]);
-
-
     }
-
     public function editar(ClienteFormRequestUpdate $request)
     {
-
         $cliente = Cliente::find($request->id);
-
         if (!isset($cliente)) {
             return response()->json([
                 'status' => false,
@@ -82,36 +69,27 @@ class ClienteController extends Controller
         if (isset($request->nome)) {
             $cliente->nome = $request->nome;
         }
-
         if (isset($request->telefone)) {
             $cliente->telefone = $request->telefone;
         }
-
         if (isset($request->email)) {
             $cliente->email = $request->email;
         }
-
         if (isset($request->estado)) {
             $cliente->endereco = $request->endereco;
         }
-     
         if (isset($request->password)) {
             $cliente->password = $request->password;
         }
-
         $cliente->update();
-
         return response()->json([
             'status' => true,
             'message' => 'Serviço atualizado.'
         ]);
-
     }
-
     public function pesquisarPorEmail(Request $request)
     {
         $cliente = Cliente::where('email', 'like', '%' . $request->email . '%')->get();
-
         if (count($cliente) > 0) {
             return response()->json([
                 'status' => true,
@@ -123,12 +101,9 @@ class ClienteController extends Controller
             'menssagens' => 'Não há resultados para pesquisa'
         ]);
     }
-
-
     public function pesquisarPorCelular(Request $request)
     {
         $cliente = Cliente::where('telefone', 'like', '%' . $request->telefone . '%')->get();
-
         if (count($cliente) > 0) {
             return response()->json([
                 'status' => true,
@@ -144,9 +119,7 @@ class ClienteController extends Controller
 
     public function recuperarSenha(Request $request)
     {
-
         $cliente = Cliente::where('email', '=', $request->email)->first();
-
         if (!isset($cliente)) {
             return response()->json([
                 'status' => false,
@@ -154,18 +127,15 @@ class ClienteController extends Controller
 
             ]);
         }
-
         if (isset($cliente->cpf)) {
            
             $cliente->password = Hash::make( $cliente->cpf );
             
         }
         $cliente->update();
-
         return response()->json([
             'status' => true,
             'password' => $cliente->password
         ]);
     }
-
 }
